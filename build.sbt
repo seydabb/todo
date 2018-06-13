@@ -15,6 +15,7 @@ libraryDependencies ++= Seq(
   ehcache,
   ws,
   guice,
+  evolutions,
   "org.postgresql" % "postgresql" % "42.2.2",
   "com.typesafe.play" %% "anorm" % "2.5.3",
   "org.scalatest" %% "scalatest" % "3.0.5"
