@@ -27,54 +27,19 @@ class TodoServiceSpec extends TestUtil {
     databaseMock = mock[Database]
   }
 
-  "getSingleTodo" should {
-    "calls findById method of repository and returns related todo from db" in {
-      DBConnection.withConnection { implicit conn =>
-
-        when(dbApiMock.database("default")).thenReturn(databaseMock)
-        when(databaseMock.getConnection).thenReturn(conn)
-        when(todosRepositoryMock.findById(ANY_TODOS_ID)).thenReturn(Future.successful(Some(ANY_TODO)))
-
-        sut = new TodoService(todosRepositoryMock, dbApiMock)
-
-        val result = sut.getSingleTodo(ANY_TODOS_ID).futureValue
-
-        result.isDefined mustBe true
-
-        verify(todosRepositoryMock).findById(ANY_TODOS_ID)(conn)
-        verifyNoMoreInteractions(todosRepositoryMock)
-      }
-    }
-
-    "throws exception if future fails" in {
-      DBConnection.withConnection { implicit conn =>
-
-        when(dbApiMock.database("default")).thenReturn(databaseMock)
-        when(databaseMock.getConnection).thenReturn(conn)
-        when(todosRepositoryMock.findById(ANY_TODOS_ID)).thenReturn(Future.failed(new Exception))
-
-        sut = new TodoService(todosRepositoryMock, dbApiMock)
-
-        intercept[Exception] {
-          sut.getSingleTodo(ANY_TODOS_ID).futureValue
-        }
-      }
-    }
-  }
-
   "insertTodo" should {
-    "calls insertTodos method of repository and insert todo & returns inserted row count" in {
+    "calls insertTodos method of repository and insert todo & returns id" in {
       DBConnection.withConnection { implicit conn =>
 
         when(dbApiMock.database("default")).thenReturn(databaseMock)
         when(databaseMock.getConnection).thenReturn(conn)
-        when(todosRepositoryMock.insertTodos(ANY_TODO)).thenReturn(Future.successful(1))
+        when(todosRepositoryMock.insertTodos(ANY_TODO)).thenReturn(Future.successful(ANY_TODO.id))
 
         sut = new TodoService(todosRepositoryMock, dbApiMock)
 
         val result = sut.insertTodo(ANY_TODO).futureValue
 
-        result mustBe 1
+        result mustBe ANY_TODO.id
 
         verify(todosRepositoryMock).insertTodos(ANY_TODO)(conn)
         verifyNoMoreInteractions(todosRepositoryMock)

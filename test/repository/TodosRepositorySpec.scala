@@ -42,27 +42,11 @@ class TodosRepositorySpec extends TestUtil {
     }
   }
 
-  "findById" should {
-    "return the existing todo for given todos id" in {
-      DBConnection.withConnection { implicit conn =>
-        val result = todosRepository.findById(ANY_TODO.id).futureValue
-        result mustBe None
-      }
-    }
-
-    "return None, for the non-existing todo for given todos id" in {
-      DBConnection.withConnection { implicit conn =>
-        val result = todosRepository.findById(ANY_TODOS_ID).futureValue
-        result mustBe None
-      }
-    }
-  }
-
   "insertTodos" should {
     "insert todos as a new one if it is not exist yet" in {
       DBConnection.withConnection { implicit conn =>
         val result = todosRepository.insertTodos(ANY_TODO).futureValue
-        result mustBe 1
+        result mustBe ANY_TODO.id
       }
     }
   }
@@ -71,7 +55,7 @@ class TodosRepositorySpec extends TestUtil {
     "remove the existing todo from todos table" in {
       DBConnection.withConnection { implicit conn =>
         val inserted = todosRepository.insertTodos(ANY_TODO_WITH_HARDCODED_ID).futureValue
-        inserted mustBe 1
+        inserted mustBe ANY_TODO_WITH_HARDCODED_ID.id
         val deleted = todosRepository.delete(ANY_TODO_WITH_HARDCODED_ID.id).futureValue
         deleted mustBe 1
       }
@@ -91,7 +75,7 @@ class TodosRepositorySpec extends TestUtil {
         val newTodo = ANY_TODO_WITH_HARDCODED_ID.copy(todo = "new todo value", isDone = true)
 
         val inserted = todosRepository.insertTodos(ANY_TODO_WITH_HARDCODED_ID).futureValue
-        inserted mustBe 1
+        inserted mustBe ANY_TODO_WITH_HARDCODED_ID.id
         val updated = todosRepository.update(ANY_TODO_WITH_HARDCODED_ID.id, newTodo).futureValue
         updated mustBe 1
       }

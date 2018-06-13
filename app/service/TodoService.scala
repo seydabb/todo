@@ -13,11 +13,7 @@ class TodoService @Inject() (todosRepository: TodosRepository,
 
   implicit val connection: Connection = dBApi.database("default").getConnection()
 
-  def getSingleTodo(id: String): Future[Option[Todo]] = {
-    todosRepository.findById(id)
-  }
-
-  def insertTodo(todo: Todo): Future[Int] = {
+  def insertTodo(todo: Todo): Future[String] = {
     todosRepository.insertTodos(todo)
   }
 

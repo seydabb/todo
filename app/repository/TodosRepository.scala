@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 import anorm.JodaParameterMetaData._
 import anorm.SqlParser.{get, str}
-import anorm.{Row, SQL, SimpleSql, ~, _}
+import anorm.{SQL, ~, _}
 import org.joda.time.DateTime
 import play.api.db.DBApi
 
@@ -20,23 +20,13 @@ case class Todo(id: String,
 @javax.inject.Singleton
 class TodosRepository @Inject()(dbapi: DBApi)(implicit ec: ExecutionContext) {
 
-  val date = new DateTime
+  private val date = new DateTime
+
   val tableName = "todos"
 
   private val db = dbapi.database("default")
 
-  def findById(id: String)(implicit c: Connection): Future[Option[Todo]] = Future {
-    val query: SimpleSql[Row] = SQL(
-      s"""
-         |select *
-         |from $tableName
-         |where id = {id}
-        """.stripMargin)
-      .on("id" -> id)
-    query.as(todosParser.singleOpt)
-  }
-
-  def insertTodos(todo: Todo)(implicit c: Connection): Future[Int] = Future {
+  def insertTodos(todo: Todo)(implicit c: Connection): Future[String] = Future {
     val id = SQL(s"insert into $tableName(id, todo, isDone, createdAt, updatedAt) values ({id}, {todo}, {isDone}, {createdAt}, {updatedAt})")
       .on(
         'id -> todo.id,
@@ -46,7 +36,7 @@ class TodosRepository @Inject()(dbapi: DBApi)(implicit ec: ExecutionContext) {
         'updatedAt -> todo.updatedAt).executeInsert(str(1).+)
 
     if (id.nonEmpty) {
-      1
+      id.head
     } else {
       throw new Exception(s"Todo could not be inserted! $todo")
     }

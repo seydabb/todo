@@ -1,7 +1,7 @@
 package util
 
 import org.joda.time.{DateTime, DateTimeZone}
-import repository.Todo
+import repository.{Comment, Todo}
 
 object TestData {
 
@@ -11,5 +11,8 @@ object TestData {
   val ANY_TODOS_ID = "any id"
   val ANY_TODO = Todo(UUID, "some todos", isDone = false, now, now)
   val ANY_TODO_WITH_HARDCODED_ID = ANY_TODO.copy(id = "hard coded id")
+
+  val ANY_COMMENT_ID = "any comment id"
+  val ANY_COMMENT = Comment(ANY_COMMENT_ID, ANY_TODOS_ID, "any comment", now, now)
 
 }
