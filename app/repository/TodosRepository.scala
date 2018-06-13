@@ -8,14 +8,29 @@ import anorm.SqlParser.{get, str}
 import anorm.{SQL, ~, _}
 import org.joda.time.DateTime
 import play.api.db.DBApi
+import play.api.libs.json.{Format, Json}
+import utils.Guid
 
 import scala.concurrent.{ExecutionContext, Future}
 
-case class Todo(id: String,
+case class Todo(id: String = Guid.generateUuid,
                 todo: String,
                 isDone: Boolean = false,
                 createdAt: DateTime = new DateTime,
                 updatedAt: DateTime = new DateTime)
+
+case class TodoEdit(todo: String, isDone: Boolean)
+
+object TodoEdit {
+  implicit val format: Format[TodoEdit] = Json.format[TodoEdit]
+}
+
+object Todo {
+
+  def apply(todo: String, isDone: Boolean): Todo = {
+    new Todo(todo = todo, isDone = isDone)
+  }
+}
 
 @javax.inject.Singleton
 class TodosRepository @Inject()(dbapi: DBApi)(implicit ec: ExecutionContext) {
@@ -53,19 +68,18 @@ class TodosRepository @Inject()(dbapi: DBApi)(implicit ec: ExecutionContext) {
 
   }
 
-  def update(id: String, newTodo: Todo)(implicit c: Connection): Future[Int] = Future {
+  def update(id: String, todoEdit: TodoEdit)(implicit c: Connection): Future[Int] = Future {
     SQL(
       s"""
          |update $tableName
-         |set todo = {todo}, isDone = {isDone}, createdAt = {createdAt}, updatedAt = {updatedAt}
+         |set todo = {todo}, isDone = {isDone}, updatedAt = {updatedAt}
          |where id = {id}
         """.stripMargin)
       .on(
         'id -> id,
-        'todo -> newTodo.todo,
-        'isDone -> newTodo.isDone,
-        'createdAt -> newTodo.createdAt,
-        'updatedAt -> newTodo.updatedAt).executeUpdate()
+        'todo -> todoEdit.todo,
+        'isDone -> todoEdit.isDone,
+        'updatedAt -> date).executeUpdate()
 
   }
 

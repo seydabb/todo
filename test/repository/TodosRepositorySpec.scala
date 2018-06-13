@@ -2,10 +2,10 @@ package repository
 
 import anorm.SQL
 import play.api.db.DBApi
-import util.TestData._
-import util.{DBConnection, TestUtil}
 
 import scala.concurrent.ExecutionContext.Implicits
+import util.{DBConnection, TestUtil}
+import util.TestData._
 
 class TodosRepositorySpec extends TestUtil {
 
@@ -72,20 +72,16 @@ class TodosRepositorySpec extends TestUtil {
   "update" should {
     "updates the existing todo's fields" in {
       DBConnection.withConnection { implicit conn =>
-        val newTodo = ANY_TODO_WITH_HARDCODED_ID.copy(todo = "new todo value", isDone = true)
-
         val inserted = todosRepository.insertTodos(ANY_TODO_WITH_HARDCODED_ID).futureValue
         inserted mustBe ANY_TODO_WITH_HARDCODED_ID.id
-        val updated = todosRepository.update(ANY_TODO_WITH_HARDCODED_ID.id, newTodo).futureValue
+        val updated = todosRepository.update(ANY_TODO_WITH_HARDCODED_ID.id, ANY_TODO_EDIT).futureValue
         updated mustBe 1
       }
     }
 
     "return 0 if some problem occurs with update statement" in {
       DBConnection.withConnection { implicit conn =>
-        val newTodo = ANY_TODO_WITH_HARDCODED_ID.copy(id = "non-existing", todo = "new todo value", isDone = true)
-
-        val updated = todosRepository.update("non-existing", newTodo).futureValue
+        val updated = todosRepository.update("non-existing", ANY_TODO_EDIT).futureValue
         updated mustBe 0
       }
     }

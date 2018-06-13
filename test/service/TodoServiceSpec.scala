@@ -5,8 +5,8 @@ import java.sql.Connection
 import org.mockito.Mockito.{verify, verifyNoMoreInteractions, when}
 import play.api.db.{DBApi, Database}
 import repository.TodosRepository
-import util.TestData._
 import util.{DBConnection, TestUtil}
+import util.TestData._
 
 import scala.concurrent.ExecutionContext.Implicits
 import scala.concurrent.Future
@@ -103,15 +103,15 @@ class TodoServiceSpec extends TestUtil {
 
         when(dbApiMock.database("default")).thenReturn(databaseMock)
         when(databaseMock.getConnection).thenReturn(conn)
-        when(todosRepositoryMock.update(ANY_TODOS_ID, ANY_TODO)).thenReturn(Future.successful(1))
+        when(todosRepositoryMock.update(ANY_TODOS_ID, ANY_TODO_EDIT)).thenReturn(Future.successful(1))
 
         sut = new TodoService(todosRepositoryMock, dbApiMock)
 
-        val result = sut.updateTodo(ANY_TODOS_ID, ANY_TODO).futureValue
+        val result = sut.updateTodo(ANY_TODOS_ID, ANY_TODO_EDIT).futureValue
 
         result mustBe 1
 
-        verify(todosRepositoryMock).update(ANY_TODOS_ID, ANY_TODO)(conn)
+        verify(todosRepositoryMock).update(ANY_TODOS_ID, ANY_TODO_EDIT)(conn)
         verifyNoMoreInteractions(todosRepositoryMock)
       }
     }

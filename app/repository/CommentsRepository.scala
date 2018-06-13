@@ -3,12 +3,12 @@ package repository
 import java.sql.Connection
 import javax.inject.Inject
 
-import anorm.SqlParser.{get, str}
-import anorm.{Row, SQL, SimpleSql, ~}
+import anorm.SqlParser.str
+import anorm.SQL
 import org.joda.time.DateTime
 import play.api.db.DBApi
 import anorm.JodaParameterMetaData._
-import util.Guid
+import utils.Guid
 
 import scala.concurrent.{ExecutionContext, Future}
 
