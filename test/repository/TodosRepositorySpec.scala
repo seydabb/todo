@@ -2,10 +2,10 @@ package repository
 
 import anorm.SQL
 import play.api.db.DBApi
+import util.TestData._
+import util.{DBConnection, TestUtil}
 
 import scala.concurrent.ExecutionContext.Implicits
-import util.{DBConnection, TestUtil}
-import util.TestData._
 
 class TodosRepositorySpec extends TestUtil {
 
@@ -32,7 +32,7 @@ class TodosRepositorySpec extends TestUtil {
 
     dbApiMock = mock[DBApi]
     todosRepository = new TodosRepository(dbApiMock)(ec) {
-      override val tableName: String = "test_todos"
+      override val todosTableName: String = "test_todos"
     }
   }
 
@@ -56,15 +56,19 @@ class TodosRepositorySpec extends TestUtil {
       DBConnection.withConnection { implicit conn =>
         val inserted = todosRepository.insertTodos(ANY_TODO_WITH_HARDCODED_ID).futureValue
         inserted mustBe ANY_TODO_WITH_HARDCODED_ID.id
-        val deleted = todosRepository.delete(ANY_TODO_WITH_HARDCODED_ID.id).futureValue
+      }
+      DBConnection.withTransaction { implicit connn =>
+        val deleted = todosRepository.delete(ANY_TODO_WITH_HARDCODED_ID.id)
         deleted mustBe 1
+        Right(true)
       }
     }
 
     "return 0 if there is no todo for given todo-id" in {
-      DBConnection.withConnection { implicit conn =>
-        val deleted = todosRepository.delete("non-existing-id").futureValue
+      DBConnection.withTransaction { implicit conn =>
+        val deleted = todosRepository.delete("non-existing-id")
         deleted mustBe 0
+        Right(0)
       }
     }
   }
@@ -74,14 +78,14 @@ class TodosRepositorySpec extends TestUtil {
       DBConnection.withConnection { implicit conn =>
         val inserted = todosRepository.insertTodos(ANY_TODO_WITH_HARDCODED_ID).futureValue
         inserted mustBe ANY_TODO_WITH_HARDCODED_ID.id
-        val updated = todosRepository.update(ANY_TODO_WITH_HARDCODED_ID.id, ANY_TODO_EDIT).futureValue
+        val updated = todosRepository.update(ANY_TODO_WITH_HARDCODED_ID).futureValue
         updated mustBe 1
       }
     }
 
     "return 0 if some problem occurs with update statement" in {
       DBConnection.withConnection { implicit conn =>
-        val updated = todosRepository.update("non-existing", ANY_TODO_EDIT).futureValue
+        val updated = todosRepository.update(ANY_TODO.copy(id = "non-existing")).futureValue
         updated mustBe 0
       }
     }

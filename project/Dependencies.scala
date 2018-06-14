@@ -11,7 +11,8 @@ object Dependencies {
     ws,
     guice,
     "org.postgresql" % "postgresql" % "42.2.2",
-    "com.typesafe.play" %% "anorm" % "2.5.3"
+    "com.typesafe.play" %% "anorm" % "2.5.3",
+    "com.typesafe.play" % "play-json-joda_2.12" % "2.6.0"
   )
 
   val testDependencies: Seq[ModuleID] = Seq(

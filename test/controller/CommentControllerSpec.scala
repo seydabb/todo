@@ -37,7 +37,7 @@ class CommentControllerSpec extends TestUtil {
     cut = new CommentController(controllerComponents, commentServiceMock)
   }
 
-  private val fakeRequest = FakeRequest(POST, s"/addComment/$ANY_TODOS_ID")
+  private val fakeRequest = FakeRequest(POST, s"/todo/$ANY_TODOS_ID/comments/")
 
   "CommentController" when {
     "addComment" should {

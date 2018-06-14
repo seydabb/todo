@@ -18,4 +18,30 @@ object DBConnection {
       connection.close()
     }
   }
+
+  //withTransaction method is just used for testing purposes
+  //Resource: https://gist.github.com/bmc/3783883#file-dbutil-scala
+  def withTransaction[T](code: java.sql.Connection => Either[String,T]): Either[String, T] = {
+    val connection = DriverManager.getConnection(url, user, password)
+    val autoCommit = connection.getAutoCommit
+
+    try {
+      connection.setAutoCommit(false)
+      var result = code(connection)
+      result.fold(
+        { error  => throw new Exception(error) },
+        { _      => connection.commit() }
+      )
+      result
+    }
+    catch {
+      case e: Throwable =>
+        connection.rollback()
+        Left("Error, rolling back transaction")
+    }
+    finally {
+      connection.setAutoCommit(autoCommit)
+    }
+  }
+
 }

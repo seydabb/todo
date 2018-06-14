@@ -6,9 +6,9 @@ import javax.inject.Inject
 import anorm.JodaParameterMetaData._
 import anorm.SqlParser.{get, str}
 import anorm.{SQL, ~, _}
+import model.TodosWithComments
 import org.joda.time.DateTime
 import play.api.db.DBApi
-import play.api.libs.json.{Format, Json}
 import utils.Guid
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -18,12 +18,6 @@ case class Todo(id: String = Guid.generateUuid,
                 isDone: Boolean = false,
                 createdAt: DateTime = new DateTime,
                 updatedAt: DateTime = new DateTime)
-
-case class TodoEdit(todo: String, isDone: Boolean)
-
-object TodoEdit {
-  implicit val format: Format[TodoEdit] = Json.format[TodoEdit]
-}
 
 object Todo {
 
@@ -37,12 +31,13 @@ class TodosRepository @Inject()(dbapi: DBApi)(implicit ec: ExecutionContext) {
 
   private val date = new DateTime
 
-  val tableName = "todos"
+  val todosTableName = "todos"
+  val commentsTableName = "comments"
 
   private val db = dbapi.database("default")
 
   def insertTodos(todo: Todo)(implicit c: Connection): Future[String] = Future {
-    val id = SQL(s"insert into $tableName(id, todo, isDone, createdAt, updatedAt) values ({id}, {todo}, {isDone}, {createdAt}, {updatedAt})")
+    val id = SQL(s"insert into $todosTableName(id, todo, isDone, createdAt, updatedAt) values ({id}, {todo}, {isDone}, {createdAt}, {updatedAt})")
       .on(
         'id -> todo.id,
         'todo -> todo.todo,
@@ -57,40 +52,75 @@ class TodosRepository @Inject()(dbapi: DBApi)(implicit ec: ExecutionContext) {
     }
   }
 
-  def delete(id: String)(implicit c: Connection): Future[Int] = Future {
-    SQL(
-      s"""
-         |delete
-         |from $tableName
-         |where id = {id}
-        """.stripMargin)
-      .on("id" -> id).executeUpdate()
-
+  def delete(todoId: String): Either[String, Boolean] = {
+    db.withTransaction { implicit connection =>
+      val deletedRowCount = SQL(s"delete from $commentsTableName WHERE fkTodoId = {todoId}").on("todoId" -> todoId).executeUpdate()
+      SQL(s"delete from $todosTableName WHERE id = {todoId}").on("todoId" -> todoId).executeUpdate()
+      if (isDeleted(deletedRowCount)) Right(true) else Right(false)
+    }
   }
 
-  def update(id: String, todoEdit: TodoEdit)(implicit c: Connection): Future[Int] = Future {
+  def update(newTodo: Todo)(implicit c: Connection): Future[Int] = Future {
     SQL(
       s"""
-         |update $tableName
+         |update $todosTableName
          |set todo = {todo}, isDone = {isDone}, updatedAt = {updatedAt}
          |where id = {id}
-        """.stripMargin)
+    """.stripMargin)
       .on(
-        'id -> id,
-        'todo -> todoEdit.todo,
-        'isDone -> todoEdit.isDone,
-        'updatedAt -> date).executeUpdate()
+        'id -> newTodo.id,
+        'todo -> newTodo.todo,
+        'isDone -> newTodo.isDone,
+        'updatedAt -> date)
+      .executeUpdate()
+  }
 
+  def findById(id: String)(implicit c: Connection): Future[Option[Todo]] = Future {
+    val query: SimpleSql[Row] = SQL(
+      s"""
+         |select *
+         |from $todosTableName
+         |where id = {id}
+        """.stripMargin)
+      .on("id" -> id)
+    query.as(todosParser.singleOpt)
+  }
+
+  def getAllTodosWithComments()(implicit c: Connection) = Future {
+    SQL("""SELECT * FROM todos t
+         LEFT OUTER JOIN comments c ON(c.fkTodoId = t.id)
+        """).as(joinedParser *)
+      .groupBy(_._1)
+      .mapValues(_.flatMap(_._2))
+      .toList
+      .map { case (todos, comments) => todos.copy(comments = comments) }
+  }
+
+  private def isDeleted(deletedRowCount: Int): Boolean = {
+    if (deletedRowCount > 0) true else false
   }
 
   private val todosParser = {
-    get[String](s"$tableName.id") ~
-      get[String](s"$tableName.todo") ~
-      get[Boolean](s"$tableName.isDone") ~
-      get[DateTime](s"$tableName.createdAt") ~
-      get[DateTime](s"$tableName.updatedAt") map {
+    get[String](s"$todosTableName.id") ~
+      get[String](s"$todosTableName.todo") ~
+      get[Boolean](s"$todosTableName.isDone") ~
+      get[DateTime](s"$todosTableName.createdAt") ~
+      get[DateTime](s"$todosTableName.updatedAt") map {
       case id ~ todo ~ isDone ~ createdAt ~ updatedAt =>
         Todo(id, todo, isDone, createdAt, updatedAt)
+    }
+  }
+
+  val simpleTodosWithComments: RowParser[TodosWithComments] = {
+    get[String](s"$todosTableName.id") ~
+      get[String](s"$todosTableName.todo") map {
+      case id~todo => TodosWithComments(id, todo, Nil)
+    }
+  }
+
+  val joinedParser: RowParser[(TodosWithComments, Option[Comment])] = {
+    simpleTodosWithComments ~ Comment.commentParser.? map {
+      case todo~comment => (todo, comment)
     }
   }
 }

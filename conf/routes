@@ -7,12 +7,13 @@
 GET     /                           controllers.HomeController.index
 
 #TodoController endpoints
-POST    /create                     controllers.TodoController.createTodo
-PATCH   /edit/:id                   controllers.TodoController.editTodo(id: String)
-DELETE  /delete/:id                 controllers.TodoController.deleteTodo(id: String)
+GET     /todos                      controllers.TodoController.getTodos
+POST    /todos                      controllers.TodoController.createTodo
+PATCH   /todos/:id                  controllers.TodoController.editTodo(id: String)
+DELETE  /todos/:id                  controllers.TodoController.deleteTodo(id: String)
 
 #CommentController endpoints
-POST    /addComment/:todoId         controllers.CommentController.addComment(todoId: String)
+POST    /todo/:todoId/comments      controllers.CommentController.addComment(todoId: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
