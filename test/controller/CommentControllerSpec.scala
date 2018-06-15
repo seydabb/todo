@@ -14,20 +14,21 @@ import play.api.test.Helpers.{POST, call, status, stubControllerComponents, stub
 import service.CommentService
 import util.TestData._
 import util.TestUtil
+import utils.CommentCouldNotBeAddedException
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.concurrent.duration._
 
 class CommentControllerSpec extends TestUtil {
 
-  implicit val actorSystem = ActorSystem("test", ConfigFactory.load())
-  implicit val materializer = ActorMaterializer()
-  implicit val timeout = Timeout(5 seconds)
+  implicit val actorSystem: ActorSystem = ActorSystem("test", ConfigFactory.load())
+  implicit val materializer: ActorMaterializer = ActorMaterializer()
+  implicit val timeout: Timeout = Timeout(5 seconds)
 
   val controllerComponents: ControllerComponents = stubControllerComponents(
     playBodyParsers = stubPlayBodyParsers(materializer)
   )
-  implicit val ec = controllerComponents.executionContext
+  implicit val ec: ExecutionContext = controllerComponents.executionContext
 
   var commentServiceMock: CommentService = _
   var cut: CommentController = _
@@ -52,6 +53,14 @@ class CommentControllerSpec extends TestUtil {
       "returns with 400 status code & does not insert comment if json is invalid" in {
         when(commentServiceMock.insertComment(ANY_TODOS_ID, ANY_COMMENT.comment)).thenReturn(Future.failed(new Exception))
         val addCommentRequest = fakeRequest.withBody(Json.obj("invalid json" -> ANY_COMMENT.comment))
+
+        val result = call(cut.addComment(ANY_TODOS_ID), addCommentRequest)
+        status(result) mustBe BAD_REQUEST
+      }
+
+      "returns with 400 status code & does not insert comment if related todo cannot be found" in {
+        when(commentServiceMock.insertComment(ANY_TODOS_ID, ANY_COMMENT.comment)).thenReturn(Future.failed(CommentCouldNotBeAddedException("Related todo could not be found")))
+        val addCommentRequest = fakeRequest.withBody(Json.obj("comment" -> ANY_COMMENT.comment))
 
         val result = call(cut.addComment(ANY_TODOS_ID), addCommentRequest)
         status(result) mustBe BAD_REQUEST

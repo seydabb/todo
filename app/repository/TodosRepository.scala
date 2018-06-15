@@ -9,9 +9,11 @@ import anorm.{SQL, ~, _}
 import model.TodosWithComments
 import org.joda.time.DateTime
 import play.api.db.DBApi
+import play.api.libs.json.{Format, Json}
 import utils.Guid
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.util.Try
 
 case class Todo(id: String = Guid.generateUuid,
                 todo: String,
@@ -20,6 +22,10 @@ case class Todo(id: String = Guid.generateUuid,
                 updatedAt: DateTime = new DateTime)
 
 object Todo {
+  import play.api.libs.json.JodaWrites._
+  import play.api.libs.json.JodaReads._
+
+  implicit val format: Format[Todo] = Json.format[Todo]
 
   def apply(todo: String, isDone: Boolean): Todo = {
     new Todo(todo = todo, isDone = isDone)
@@ -54,9 +60,10 @@ class TodosRepository @Inject()(dbapi: DBApi)(implicit ec: ExecutionContext) {
 
   def delete(todoId: String): Either[String, Boolean] = {
     db.withTransaction { implicit connection =>
-      val deletedRowCount = SQL(s"delete from $commentsTableName WHERE fkTodoId = {todoId}").on("todoId" -> todoId).executeUpdate()
-      SQL(s"delete from $todosTableName WHERE id = {todoId}").on("todoId" -> todoId).executeUpdate()
-      if (isDeleted(deletedRowCount)) Right(true) else Right(false)
+      //TODO: firstly I can check the existence of comment and try instead of Try
+      val deletedCommentCountAsOpt = Try(SQL(s"delete from $commentsTableName WHERE fkTodoId = {todoId}").on("todoId" -> todoId).executeUpdate()).toOption
+      val deletedTodosCountAsOpt = Try(SQL(s"delete from $todosTableName WHERE id = {todoId}").on("todoId" -> todoId).executeUpdate()).toOption
+      Right(isDeleted(deletedCommentCountAsOpt, deletedTodosCountAsOpt))
     }
   }
 
@@ -96,8 +103,11 @@ class TodosRepository @Inject()(dbapi: DBApi)(implicit ec: ExecutionContext) {
       .map { case (todos, comments) => todos.copy(comments = comments) }
   }
 
-  private def isDeleted(deletedRowCount: Int): Boolean = {
-    if (deletedRowCount > 0) true else false
+  private def isDeleted(deletedCommentCountAsOpt: Option[Int], deletedTodoCountAsOpt: Option[Int]): Boolean = {
+    (deletedCommentCountAsOpt, deletedTodoCountAsOpt) match {
+      case (Some(_), Some(i)) if i > 0 => true
+      case _ => false
+    }
   }
 
   private val todosParser = {
@@ -112,9 +122,8 @@ class TodosRepository @Inject()(dbapi: DBApi)(implicit ec: ExecutionContext) {
   }
 
   val simpleTodosWithComments: RowParser[TodosWithComments] = {
-    get[String](s"$todosTableName.id") ~
-      get[String](s"$todosTableName.todo") map {
-      case id~todo => TodosWithComments(id, todo, Nil)
+    todosParser map {
+      case todo => TodosWithComments(todo, Nil)
     }
   }
 

@@ -34,12 +34,12 @@ class TodoService @Inject()(todosRepository: TodosRepository,
       maybeTodo <- todosRepository.findById(id)
       newTodo <- createNewTodo(maybeTodo, todoEdit)
       result <- updateIfTodoIsChanged(newTodo)
-    } yield result
+    } yield (maybeTodo, result)
 
     updateResult.map {
-      case 1 => 1
-      case -1 => 0 //Nothing is changed, so update process is not happened!
-      case 0 => throw TodoNotFoundException("Todo not found!")
+      case (Some(todo), 1) => 1
+      case (Some(todo), -1) => 0 //Nothing is changed, so update process is not happened!
+      case (None, _) => throw TodoNotFoundException("Todo not found!")
       case _ => throw new Exception("Unknown problem is occurred!")
     }
   }

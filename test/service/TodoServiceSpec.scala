@@ -9,12 +9,12 @@ import util.{DBConnection, TestUtil}
 import util.TestData._
 
 import scala.concurrent.ExecutionContext.Implicits
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import org.mockito.ArgumentMatchers.any
 
 class TodoServiceSpec extends TestUtil {
 
-  private implicit val ec = Implicits.global
+  private implicit val ec: ExecutionContext = Implicits.global
 
   private var sut: TodoService = _
   private var dbApiMock: DBApi = _
@@ -140,16 +140,13 @@ class TodoServiceSpec extends TestUtil {
         when(dbApiMock.database("default")).thenReturn(databaseMock)
         when(databaseMock.getConnection).thenReturn(conn)
         when(todosRepositoryMock.findById(any[String])(any[Connection])).thenReturn(Future.successful(None))
+        when(todosRepositoryMock.update(any[Todo])(any[Connection])).thenReturn(Future.successful(1))
 
         sut = new TodoService(todosRepositoryMock, dbApiMock)
 
-        val result = sut.updateTodo(ANY_TODOS_ID, ANY_TODO_EDIT).futureValue
-
-        result mustBe 0
-
-        verify(todosRepositoryMock).findById(ANY_TODO_WILL_BE_EDITED.id)(conn)
-        verifyZeroInteractions(todosRepositoryMock)
-        verifyNoMoreInteractions(todosRepositoryMock)
+        intercept[Exception] {
+          sut.updateTodo(ANY_TODO.id, ANY_TODO_EDIT).futureValue
+        }
       }
     }
 

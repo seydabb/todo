@@ -17,11 +17,11 @@ class TodoController @Inject()(cc: ControllerComponents,
 
   implicit val ec: ExecutionContext = cc.executionContext
 
-  def getTodos: Action[AnyContent] = Action.async { implicit request =>
+  def getTodos: Action[AnyContent] = Action.async {
     todoService.getAllTodosWithComments()
-      .map(list => Ok(Json.prettyPrint(Json.toJson(list))))
+      .map(list => Ok(Json.toJson(list)))
       .recover {
-        case e => InternalServerError(getResult(e.getMessage))
+        case e => InternalServerError(getResult(Left(e.getMessage)))
       }
   }
 
@@ -29,11 +29,11 @@ class TodoController @Inject()(cc: ControllerComponents,
     val todoAsOpt = parseTodoMessage(request)
     todoAsOpt match {
       case Some(todo) => todoService.insertTodo(Todo(todo = todo))
-        .map(i => Created(getResult(s"Todo is inserted - id: $i")))
+        .map(i => Created(getResult(Right(Json.obj("id" -> i)))))
         .recover {
-          case e => InternalServerError(getResult(e.getMessage))
+          case e => InternalServerError(getResult(Left(e.getMessage)))
         }
-      case _ => Future.successful(BadRequest(getResult("Json is not valid!")))
+      case _ => Future.successful(BadRequest(getResult(Left("Json is not valid!"))))
     }
   }
 
@@ -45,27 +45,27 @@ class TodoController @Inject()(cc: ControllerComponents,
         todoService.updateTodo(id, todoEdit)
           .map(i => getUpdateMessage(i, id))
           .recover {
-            case ex: TodoNotFoundException => NotFound(getResult(s"Related todo could not be found with id: $id"))
-            case e => InternalServerError(getResult(e.getMessage))
+            case ex: TodoNotFoundException => NotFound(getResult(Left(s"Related todo could not be found with id: $id")))
+            case e => InternalServerError(getResult(Left(e.getMessage)))
           }
-      case None => Future.successful(BadRequest(getResult("Json is not valid!")))
+      case None => Future.successful(BadRequest(getResult(Left("Json is not valid!"))))
     }
   }
 
   def deleteTodo(id: String): Action[AnyContent] = Action.async { implicit request =>
     todoService.deleteTodo(id)
-      .map(i => Ok(getResult(s"$i Todo is deleted")))
+      .map(i => Ok(getResult(Right(Json.obj("deletedRowCount" -> i)))))
       .recover {
-        case ex: TodoNotFoundException => NotFound(getResult(s"Related todo could not be found with id: $id"))
-        case e => InternalServerError(getResult(e.getMessage))
+        case ex: TodoNotFoundException => NotFound(getResult(Left(s"Related todo could not be found with id: $id")))
+        case e => InternalServerError(getResult(Left(e.getMessage)))
       }
   }
 
   private def getUpdateMessage(updatedRowCount: Int, id: String): Result = {
     updatedRowCount match {
-      case i if i >= 1 => Ok(getResult(s"$i Todo is edited - id: $id"))
-      case 0 => Ok(getResult(s"Nothing is edited. Related todo could not be found or there is no change!"))
-      case _ => Ok
+      case i if i >= 1 => Ok(getResult(Right(Json.obj("editedRowCount" -> i))))
+      case 0 => Ok(getResult(Left(s"There is no change with related todo!")))
+      case _ => BadRequest(getResult(Left("Unexpected error occurred. Please try again!")))
     }
   }
 

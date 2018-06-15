@@ -2,9 +2,10 @@ package controllers
 
 import javax.inject.Inject
 
-import play.api.libs.json.JsValue
+import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AbstractController, Action, ControllerComponents, Request}
 import service.CommentService
+import utils.CommentCouldNotBeAddedException
 import utils.CustomResult.getResult
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -19,11 +20,12 @@ class CommentController @Inject()(cc: ControllerComponents,
     commentAsOpt match {
       case Some(comment) =>
         commentService.insertComment(todoId, comment)
-        .map(i => Created(getResult(s"Comment is inserted - id: $i")))
+        .map(i => Created(getResult(Right(Json.obj("id" -> i)))))
         .recover {
-          case e => InternalServerError(getResult(e.getMessage))
+          case ex: CommentCouldNotBeAddedException => BadRequest(getResult(Left("Related Todo could not be found.")))
+          case e => InternalServerError(getResult(Left(e.getMessage)))
         }
-      case None => Future.successful(BadRequest(getResult("Json is not valid!")))
+      case None => Future.successful(BadRequest(getResult(Left("Json is not valid!"))))
     }
   }
 
