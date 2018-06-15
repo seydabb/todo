@@ -1,0 +1,906 @@
+{
+	"id": "516a8fe7-9989-8526-7b9c-f77f7f2d5d91",
+	"name": "TodoApp",
+	"description": "",
+	"order": [
+		"a29256c0-0715-697e-20bd-e6faf54b5190",
+		"da953b69-e270-cc1a-db25-84700866a62d",
+		"00f336e3-f288-8a34-769f-e49b8a017e14",
+		"4ed3d5cb-ae07-0f9a-8fc2-b6aa3b1670a7",
+		"79156cbc-274b-caea-f5d2-3e69010dfce8",
+		"e49ec383-f1f2-4e55-fcac-d8fd63a04065",
+		"e65db294-5481-d021-d526-48128da8ed01"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1528989401605,
+	"owner": "74682",
+	"public": false,
+	"requests": [
+		{
+			"id": "00f336e3-f288-8a34-769f-e49b8a017e14",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:9001/todos/40e314a3-c7c1-48d3-8dc3-d6d2fabd8192",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PATCH",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1529054416727,
+			"name": "EditTodo (check/uncheck)",
+			"description": "",
+			"collectionId": "516a8fe7-9989-8526-7b9c-f77f7f2d5d91",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK",
+						"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+					},
+					"time": 54,
+					"headers": [
+						{
+							"name": "content-length",
+							"key": "content-length",
+							"value": "20",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "content-security-policy",
+							"key": "content-security-policy",
+							"value": "default-src 'self'",
+							"description": "Custom header"
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Fri, 15 Jun 2018 08:54:13 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "referrer-policy",
+							"key": "referrer-policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"name": "x-permitted-cross-domain-policies",
+							"key": "x-permitted-cross-domain-policies",
+							"value": "master-only",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\"editedRowCount\":1}",
+					"language": "json",
+					"rawDataType": "text",
+					"previewType": "text",
+					"searchResultScrolledTo": -1,
+					"forceNoPretty": false,
+					"write": true,
+					"empty": false,
+					"failed": false,
+					"name": "EditTodo (check/uncheck)",
+					"id": "1c13c712-c719-8d6a-b63b-9426ef6e1f74",
+					"request": {
+						"url": "http://localhost:9001/todos/fa7417f9-4f84-4236-bccd-a94fa0fe199b",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"enabled": true
+							}
+						],
+						"headers": "Content-Type: application/json\n",
+						"data": "{\"isDone\": true}",
+						"method": "PATCH",
+						"dataMode": "raw"
+					}
+				}
+			],
+			"rawModeData": "{\"isDone\": true}"
+		},
+		{
+			"id": "4ed3d5cb-ae07-0f9a-8fc2-b6aa3b1670a7",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:9001/todos/40e314a3-c7c1-48d3-8dc3-d6d2fabd8192",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PATCH",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1529054448341,
+			"name": "EditTodo ",
+			"description": "",
+			"collectionId": "516a8fe7-9989-8526-7b9c-f77f7f2d5d91",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK",
+						"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+					},
+					"time": 51,
+					"headers": [
+						{
+							"name": "content-length",
+							"key": "content-length",
+							"value": "20",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "content-security-policy",
+							"key": "content-security-policy",
+							"value": "default-src 'self'",
+							"description": "Custom header"
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Fri, 15 Jun 2018 08:55:49 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "referrer-policy",
+							"key": "referrer-policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"name": "x-permitted-cross-domain-policies",
+							"key": "x-permitted-cross-domain-policies",
+							"value": "master-only",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\"editedRowCount\":1}",
+					"language": "json",
+					"rawDataType": "text",
+					"previewType": "text",
+					"searchResultScrolledTo": -1,
+					"forceNoPretty": false,
+					"write": true,
+					"empty": false,
+					"failed": false,
+					"name": "EditTodo ",
+					"id": "b7f3cb12-5953-6185-8d54-e03ca1780553",
+					"request": {
+						"url": "http://localhost:9001/todos/fa7417f9-4f84-4236-bccd-a94fa0fe199b",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"enabled": true
+							}
+						],
+						"headers": "Content-Type: application/json\n",
+						"data": "{\"todo\": \"new todo message\", \"isDone\": true }",
+						"method": "PATCH",
+						"dataMode": "raw"
+					}
+				}
+			],
+			"rawModeData": "{\"todo\": \"new todo message\", \"isDone\": true }"
+		},
+		{
+			"id": "79156cbc-274b-caea-f5d2-3e69010dfce8",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:9001/todos/40e314a3-c7c1-48d3-8dc3-d6d2fabd8192",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1529054464973,
+			"name": "DeleteTodo",
+			"description": "",
+			"collectionId": "516a8fe7-9989-8526-7b9c-f77f7f2d5d91",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK",
+						"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+					},
+					"time": 60,
+					"headers": [
+						{
+							"name": "content-length",
+							"key": "content-length",
+							"value": "21",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "content-security-policy",
+							"key": "content-security-policy",
+							"value": "default-src 'self'",
+							"description": "Custom header"
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Fri, 15 Jun 2018 08:25:03 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "referrer-policy",
+							"key": "referrer-policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"name": "x-permitted-cross-domain-policies",
+							"key": "x-permitted-cross-domain-policies",
+							"value": "master-only",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\"deletedRowCount\":1}",
+					"language": "json",
+					"rawDataType": "text",
+					"previewType": "text",
+					"searchResultScrolledTo": -1,
+					"forceNoPretty": false,
+					"write": true,
+					"empty": false,
+					"failed": false,
+					"name": "DeleteTodo",
+					"id": "81eef700-5c57-8378-d3a6-6604516c8b63",
+					"request": {
+						"url": "http://localhost:9001/todos/123",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"enabled": true
+							}
+						],
+						"headers": "Content-Type: application/json\n",
+						"data": "",
+						"method": "DELETE",
+						"dataMode": "raw"
+					}
+				}
+			],
+			"rawModeData": ""
+		},
+		{
+			"id": "a29256c0-0715-697e-20bd-e6faf54b5190",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:9001/todos",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1529054341700,
+			"name": "CreateTodo",
+			"description": "",
+			"collectionId": "516a8fe7-9989-8526-7b9c-f77f7f2d5d91",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 201,
+						"name": "Created",
+						"detail": "The request has been fulfilled and resulted in a new resource being created."
+					},
+					"time": 143,
+					"headers": [
+						{
+							"name": "content-length",
+							"key": "content-length",
+							"value": "45",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "content-security-policy",
+							"key": "content-security-policy",
+							"value": "default-src 'self'",
+							"description": "Custom header"
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Fri, 15 Jun 2018 08:25:45 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "referrer-policy",
+							"key": "referrer-policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"name": "x-permitted-cross-domain-policies",
+							"key": "x-permitted-cross-domain-policies",
+							"value": "master-only",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\"id\":\"fa7417f9-4f84-4236-bccd-a94fa0fe199b\"}",
+					"language": "json",
+					"rawDataType": "text",
+					"previewType": "text",
+					"searchResultScrolledTo": -1,
+					"forceNoPretty": false,
+					"write": true,
+					"empty": false,
+					"failed": false,
+					"name": "CreateTodo",
+					"id": "fe6f69a3-7584-0d24-2ec1-d6ab86502c11",
+					"request": {
+						"url": "http://localhost:9001/todos",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"enabled": true
+							}
+						],
+						"headers": "Content-Type: application/json\n",
+						"data": "{\"todo\": \"Clean the apartment\"}",
+						"method": "POST",
+						"dataMode": "raw"
+					}
+				}
+			],
+			"rawModeData": "{\"todo\": \"Clean the apartment\"}"
+		},
+		{
+			"id": "da953b69-e270-cc1a-db25-84700866a62d",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:9001/todos/40e314a3-c7c1-48d3-8dc3-d6d2fabd8192",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PATCH",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1529054387240,
+			"name": "EditTodo (only message)",
+			"description": "",
+			"collectionId": "516a8fe7-9989-8526-7b9c-f77f7f2d5d91",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK",
+						"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+					},
+					"time": 66,
+					"headers": [
+						{
+							"name": "content-length",
+							"key": "content-length",
+							"value": "20",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "content-security-policy",
+							"key": "content-security-policy",
+							"value": "default-src 'self'",
+							"description": "Custom header"
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Fri, 15 Jun 2018 08:26:18 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "referrer-policy",
+							"key": "referrer-policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"name": "x-permitted-cross-domain-policies",
+							"key": "x-permitted-cross-domain-policies",
+							"value": "master-only",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\"editedRowCount\":1}",
+					"language": "json",
+					"rawDataType": "text",
+					"previewType": "text",
+					"searchResultScrolledTo": -1,
+					"forceNoPretty": false,
+					"write": true,
+					"empty": false,
+					"failed": false,
+					"name": "EditTodo (only message)",
+					"id": "8c584fa6-9077-adbc-cbca-8124ba46f445",
+					"request": {
+						"url": "http://localhost:9001/todos/fa7417f9-4f84-4236-bccd-a94fa0fe199b",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"enabled": true
+							}
+						],
+						"headers": "Content-Type: application/json\n",
+						"data": "{\"todo\":\"Clean only living room\"}",
+						"method": "PATCH",
+						"dataMode": "raw"
+					}
+				}
+			],
+			"rawModeData": "{\"todo\":\"Clean only living room\"}"
+		},
+		{
+			"id": "e49ec383-f1f2-4e55-fcac-d8fd63a04065",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:9001/todo/40e314a3-c7c1-48d3-8dc3-d6d2fabd8192/comments",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1529054489472,
+			"name": "AddComment",
+			"description": "",
+			"collectionId": "516a8fe7-9989-8526-7b9c-f77f7f2d5d91",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 201,
+						"name": "Created",
+						"detail": "The request has been fulfilled and resulted in a new resource being created."
+					},
+					"time": 47,
+					"headers": [
+						{
+							"name": "content-length",
+							"key": "content-length",
+							"value": "45",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "content-security-policy",
+							"key": "content-security-policy",
+							"value": "default-src 'self'",
+							"description": "Custom header"
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Fri, 15 Jun 2018 08:28:30 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "referrer-policy",
+							"key": "referrer-policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"name": "x-permitted-cross-domain-policies",
+							"key": "x-permitted-cross-domain-policies",
+							"value": "master-only",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "{\"id\":\"81188c51-43f7-43ac-be01-0b2dc61c2d70\"}",
+					"language": "json",
+					"rawDataType": "text",
+					"previewType": "text",
+					"searchResultScrolledTo": -1,
+					"forceNoPretty": false,
+					"write": true,
+					"empty": false,
+					"failed": false,
+					"name": "AddComment",
+					"id": "28b69013-a3c4-7938-2f0c-c49be84b2aa8",
+					"request": {
+						"url": "http://localhost:9001/todo/fa7417f9-4f84-4236-bccd-a94fa0fe199b/comments",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"enabled": true
+							}
+						],
+						"headers": "Content-Type: application/json\n",
+						"data": "{\"comment\" : \"let's do it on monday\"}",
+						"method": "POST",
+						"dataMode": "raw"
+					}
+				}
+			],
+			"rawModeData": "{\"comment\" : \"no no tuesday\"}"
+		},
+		{
+			"id": "e65db294-5481-d021-d526-48128da8ed01",
+			"headers": "//Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": false
+				}
+			],
+			"url": "http://localhost:9001/todos",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1529054422896,
+			"name": "GetAllTodosWithComments",
+			"description": "",
+			"collectionId": "516a8fe7-9989-8526-7b9c-f77f7f2d5d91",
+			"responses": [
+				{
+					"status": "",
+					"responseCode": {
+						"code": 200,
+						"name": "OK",
+						"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+					},
+					"time": 41,
+					"headers": [
+						{
+							"name": "content-length",
+							"key": "content-length",
+							"value": "602",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"name": "content-security-policy",
+							"key": "content-security-policy",
+							"value": "default-src 'self'",
+							"description": "Custom header"
+						},
+						{
+							"name": "content-type",
+							"key": "content-type",
+							"value": "application/json",
+							"description": "The mime type of this content"
+						},
+						{
+							"name": "date",
+							"key": "date",
+							"value": "Fri, 15 Jun 2018 08:29:02 GMT",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"name": "referrer-policy",
+							"key": "referrer-policy",
+							"value": "origin-when-cross-origin, strict-origin-when-cross-origin",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-content-type-options",
+							"key": "x-content-type-options",
+							"value": "nosniff",
+							"description": "The only defined value, \"nosniff\", prevents Internet Explorer from MIME-sniffing a response away from the declared content-type"
+						},
+						{
+							"name": "x-frame-options",
+							"key": "x-frame-options",
+							"value": "DENY",
+							"description": "Clickjacking protection: \"deny\" - no rendering within a frame, \"sameorigin\" - no rendering if origin mismatch"
+						},
+						{
+							"name": "x-permitted-cross-domain-policies",
+							"key": "x-permitted-cross-domain-policies",
+							"value": "master-only",
+							"description": "Custom header"
+						},
+						{
+							"name": "x-xss-protection",
+							"key": "x-xss-protection",
+							"value": "1; mode=block",
+							"description": "Cross-site scripting (XSS) filter"
+						}
+					],
+					"cookies": [],
+					"mime": "",
+					"text": "[{\"todo\":{\"id\":\"fa7417f9-4f84-4236-bccd-a94fa0fe199b\",\"todo\":\"Clean only living room\",\"isDone\":false,\"createdAt\":\"2018-06-15T08:25:45.403Z\",\"updatedAt\":\"2018-06-15T08:23:41.871Z\"},\"comments\":[{\"id\":\"5f088382-0b8b-4620-ad45-a88b46ac9307\",\"fkTodoId\":\"fa7417f9-4f84-4236-bccd-a94fa0fe199b\",\"comment\":\"no no tuesday\",\"createdAt\":\"2018-06-15T08:23:42.121Z\",\"updatedAt\":\"2018-06-15T08:23:42.121Z\"},{\"id\":\"81188c51-43f7-43ac-be01-0b2dc61c2d70\",\"fkTodoId\":\"fa7417f9-4f84-4236-bccd-a94fa0fe199b\",\"comment\":\"let's do it on monday\",\"createdAt\":\"2018-06-15T08:23:42.121Z\",\"updatedAt\":\"2018-06-15T08:23:42.121Z\"}]}]",
+					"language": "json",
+					"rawDataType": "text",
+					"previewType": "text",
+					"searchResultScrolledTo": -1,
+					"forceNoPretty": false,
+					"write": true,
+					"empty": false,
+					"failed": false,
+					"name": "GetAllTodosWithComments",
+					"id": "4c00a035-36be-9789-bc75-3a05a319bbb0",
+					"request": {
+						"url": "http://localhost:9001/todos",
+						"pathVariables": {},
+						"pathVariableData": [],
+						"queryParams": [],
+						"headerData": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": "",
+								"enabled": false,
+								"warning": ""
+							}
+						],
+						"headers": "//Content-Type: application/json\n",
+						"data": null,
+						"method": "GET",
+						"dataMode": "params"
+					}
+				}
+			]
+		}
+	]
+}
